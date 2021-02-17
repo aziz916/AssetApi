@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  asset_api:
+    image: ${DOCKER_REGISTRY-}asset_api
+    container_name: asset_api
+    build:
+      context: .
+      dockerfile: ./AssetAPI/Dockerfile
+

@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  asset_api:
+    container_name: asset_api
+    environment:
+      - VIRTUAL_HOST=assetapi.aaziz.info
+      - LETSENCRYPT_HOST=assetapi.aaziz.info
+      - ASPNETCORE_URLS=https://assetapi.aaziz.info:443;http://assetapi.aaziz.info:80
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/assetApi.pfx
+    volumes:
+      - /root/certs/assetapi.aaziz.info/:/root/.microsoft/usersecrets
+      - /root/certs/assetapi.aaziz.info:/root/.aspnet/https/
+
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: db
+    environment:
+      SA_PASSWORD: "ASF1asf12421SAFASA1232AS14#"
+      ACCEPT_EULA: "Y"
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
