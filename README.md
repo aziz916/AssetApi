@@ -10,7 +10,7 @@
 The project consists of API implementation, which consist of updating the assets property from the CSV file. 
 This was the task provided from one of the recruiters.
 
-#### Technologies :
+#### Technologies
 * ASP.Net Core 3.1
 * C#
 * EntityFramework Core
@@ -21,13 +21,75 @@ This was the task provided from one of the recruiters.
 Project Requires a Visual Studio and docker setup to run the project
 
 #### Project Explanation
-1) **POST method asset master**: Post method is created to save the asset in master table
+1) **POST method asset master**: Post method is created to save the asset in master table  
+     **input json** :  
+                   ```
+                    {
+                              "name" : "Laptop"
+                    }    
+                   ```   
+     **output json** :  
+                    ```
+                    {
+                              "id":1,
+                              "name":"Laptop"
+                    }
+                    ```
 
 2) **GET method on asset properties** : http request for assets is used to get the list of the assets Ids based on the search criteria 
 if no paramters is passed then list of all assets are retrieved. 
 input parameters: Property name and value.
-From this http request you can get the asset Id and the Property Ids associated with Assets
+From this http request you can get the asset Id and the Property Ids associated with Assets  
+          if Property is not selected as a paramter it will return all the assets with the properties:
+ ``` 
+  {
+    "name": "Laptop",
+    "properties": [
+      {
+        "id": 1,
+        "asset": null,
+        "name": "Is Cash",
+        "value": false,
+        "time_stamp": "0001-01-01T00:00:00"
+      }
+    ]
+  },
+  {
+    "name": "Keyboard",
+    "properties": [
+      {
+        "id": 2,
+        "asset": null,
+        "name": "is fixed",
+        "value": false,
+        "time_stamp": "0001-01-01T00:00:00"
+      }
+    ]
+  }
 
+```       
+If the property is provided then it will return the assets with the property in it.   
+Other assets will also show but the porperties will not be present like the below json response  
+```
+[
+  {
+    "name": "Laptop",
+    "properties": [
+      {
+        "id": 1,
+        "asset": null,
+        "name": "Is Cash",
+        "value": false,
+        "time_stamp": "0001-01-01T00:00:00"
+      }
+    ]
+  },
+  {
+    "name": "Keyboard",
+    "properties": []
+  }
+]
+```  
 3) **Sync http Post request** : This method get the CSV file either from the file upload or the appsetting.json file if the file upload is not selected.
 CSV file is a strongly Type model, with the csv file consist of numbers of column as follows:
 assetid, properties, value, time_stamp
